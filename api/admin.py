@@ -12,3 +12,5 @@ class User(admin.ModelAdmin):
 
 
 admin.site.register(models.Credit)
+admin.site.register(models.Transaction)
+admin.site.register(models.Contribution)
