@@ -9,3 +9,6 @@ class User(admin.ModelAdmin):
 
     def get_token(self, obj):
         return obj.token[:5] + '*'*randint(3, 15) + obj.token[-5:]
+
+
+admin.site.register(models.Credit)

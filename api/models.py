@@ -12,7 +12,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         (1, 'M')
     )
 
-
     email = models.EmailField(_('email'), unique=True)
     first_name = models.CharField(_('name'), max_length=30)
     last_name = models.CharField(_('surname'), max_length=30, blank=True)
@@ -38,3 +37,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+
+class Credit(models.Model):
+    name = models.TextField(verbose_name='Название кредита')
+    value = models.FloatField(verbose_name='Величина кредита')
+    payment = models.FloatField(verbose_name='Ежемесячная выплата')
+
+
+    def __str__(self):
+        return f'{self.name}\t{self.value}\t{self.payment}'
+
+
+    class Meta:
+        verbose_name = u'Кредит'
+        verbose_name_plural = u'Кредиты'
