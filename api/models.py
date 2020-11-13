@@ -17,8 +17,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('surname'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('registered'), auto_now_add=True)
     token = models.CharField(_('token'), max_length=30, blank=False)
-    age = models.IntegerField(_('age'), blank=True, default=0)
-    gender = models.IntegerField(_('gender'), choices=GENDER, blank=True, default=0)
+    age = models.PositiveIntegerField(_('age'), blank=True, default=0)
+    gender = models.PositiveIntegerField(_('gender'), choices=GENDER, blank=True, default=0)
 
     is_staff = models.BooleanField(default=True)
 
@@ -43,6 +43,7 @@ class Credit(models.Model):
     name = models.TextField(verbose_name='Название кредита')
     value = models.FloatField(verbose_name='Величина кредита')
     payment = models.FloatField(verbose_name='Ежемесячная выплата')
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
     def __str__(self):
@@ -55,11 +56,18 @@ class Credit(models.Model):
 
 
 class Transaction(models.Model):
+    TYPES = (
+        (0, 'Акция'),
+        (1, 'Облигация'),
+        (2, 'Фонд')
+    )
+
     name = models.TextField(verbose_name='Название транзакции')
     ticket = models.TextField(verbose_name='Тикет')
     price = models.FloatField(verbose_name='Цена транзакции')
     data = models.DateField(verbose_name='Дата совершения транзакции')
-    active_type = models.PositiveIntegerField(verbose_name='Тип актива')
+    active_type = models.PositiveIntegerField(verbose_name='Тип актива', choices=TYPES)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Транзакция'
@@ -75,6 +83,7 @@ class Contribution(models.Model):
     current_amount = models.FloatField(verbose_name='Текущая сумма')
     percentage_accrual_date = models.DateField(verbose_name='Дата начисления процентов')
     percentage_to_contribution = models.BooleanField(default=False, verbose_name='Проценты начисляются на вклад')
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Вклад'
