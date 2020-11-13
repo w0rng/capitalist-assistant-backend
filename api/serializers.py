@@ -1,14 +1,15 @@
+from django.db.models import fields
 from rest_framework import serializers
-from .models import Contribution
+import api.models as models
 
 
 class ContributionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Contribution
-        fields = ('id',
-                  'name', 
-                  'percentage_rate', 
-                  'current_amount', 
-                  'percentage_accrual_date',
-                  'percentage_to_contribution',
-                  'user_id')
+        model = models.Contribution
+        fields = '__all__'
+
+
+class ContributionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = '__all__'
